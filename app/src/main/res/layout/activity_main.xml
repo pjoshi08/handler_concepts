@@ -6,36 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/task1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:text="@string/task_1"/>
-
-    <Button
-        android:id="@+id/task2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/task1"
-        android:layout_marginTop="16dp"
-        android:text="@string/task_2"/>
-
-    <Button
-        android:id="@+id/task3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/task2"
-        android:layout_marginTop="16dp"
-        android:text="@string/quit"/>
-
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="wrap_content"

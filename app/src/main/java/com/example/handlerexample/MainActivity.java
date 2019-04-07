@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvMessage;
-    private LooperThread worker;
+    private Worker worker;
     private Handler mainThreadHandler;
 
     @Override
@@ -24,29 +24,30 @@ public class MainActivity extends AppCompatActivity {
 
         setupHandler();
 
-        instantiateWorker();
+        worker = new Worker();
 
-        findViewById(R.id.task1).setOnClickListener(v -> {
+        worker.execute(() -> {
             Message message = Message.obtain();
-            message.what = LooperThread.TASK1;
-            worker.getBgThreadHandler().sendMessage(message);
-        });
+            threadSleep(1000);
 
-        findViewById(R.id.task2).setOnClickListener(v -> {
+            message.obj = "Task1 executed";
+            mainThreadHandler.sendMessage(message);
+        }).execute(() -> {
             Message message = Message.obtain();
-            message.what = LooperThread.TASK2;
-            worker.getBgThreadHandler().sendMessage(message);
-        });
+            threadSleep(2000);
 
-        findViewById(R.id.task3).setOnClickListener(v -> {
+            message.obj = "Task2 executed";
+            mainThreadHandler.sendMessage(message);
+        }).execute(() -> {
             Message message = Message.obtain();
-            message.what = LooperThread.TASK3;
-            worker.getBgThreadHandler().sendMessage(message);
-        });
-    }
+            threadSleep(2000);
 
-    private void instantiateWorker() {
-        worker = new LooperThread(mainThreadHandler);
+            if (worker.quit()){
+                // Looper.quit() is called
+                message.obj = "Looper Terminated";
+                mainThreadHandler.sendMessage(message);
+            }
+        });
     }
 
     private void setupHandler() {
@@ -57,5 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 tvMessage.setText((String)msg.obj);
             }
         };
+    }
+
+    private void threadSleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
